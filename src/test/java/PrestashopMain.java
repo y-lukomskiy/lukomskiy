@@ -2,8 +2,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -87,7 +85,7 @@ public class PrestashopMain {
         else System.out.println("TEST 5 FAILED - the number items isn't the same to counter on page. Number of items found - " + resultQuantity + ". The counter value is - " + numberOfFoundItems);
 
         // TEST 5 Checking that only USD is used for goods after selection USD as a currency
-        // Finding all prices on page and adding to goodsCurrency variable
+        // Finding all prices on page and adding to goodsCurrency variable -- not include discount price :\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         List <WebElement> goodsPriceFull = driver.findElements(By.className("price"));
 
         ArrayList <String> priceValues = new ArrayList<String>();
@@ -106,10 +104,32 @@ public class PrestashopMain {
         // Setting other items order
         driver.findElement(By.xpath("//*[@id=\"js-product-list-top\"]/div[2]/div/div/a/i")).click();
         driver.findElement(By.xpath("//*[@id=\"js-product-list-top\"]/div[2]/div/div/div/a[5]")).click();
+        // Waiting drop down to update
+        Thread.sleep(1000);
         // Checking that correct parameter is set
-        System.out.println(driver.findElement(By.xpath("//*[@id=\"js-product-list-top\"]/div[2]/div/div")).getText());
         if (!driver.findElement(By.xpath("//*[@id=\"js-product-list-top\"]/div[2]/div/div/a")).getText().contains("Цене: от высокой к низкой"))
-            System.out.println("Test 7 failed");
+            System.out.println("TEST 7 FAILED - incorrect sorting is set");
+        else System.out.println("TEST 7 PASSED - sorting from high price to low is set");
+
+        // TEST 8 - Checking that only regular price is used
+
+        ArrayList <String> onlyRegularPrices = new ArrayList<String>();
+        List <WebElement> allPrices = driver.findElements(By.className("product-price-and-shipping"));
+
+        for (int a = 1; a <= allPrices.size(); a++){
+            String regularPrice = "#js-product-list > div.products.row > article:nth-child(" + a + ") > div > div.product-description > div > span.regular-price";
+            String simplePrice = "#js-product-list > div.products.row > article:nth-child(" + a + ") > div > div.product-description > div > span";
+            if (driver.findElement(By.cssSelector(regularPrice)).isDisplayed())
+                onlyRegularPrices.add(driver.findElement(By.cssSelector(regularPrice)).getText());
+            else onlyRegularPrices.add(driver.findElement(By.cssSelector(simplePrice)).getText());
+            }
+        for (int a = 0; a <= onlyRegularPrices.size(); a++){
+            System.out.println(onlyRegularPrices.get(a));
+        }
+
+
+
+
         //Temporal check of result - remove in final version
         Thread.sleep(500);
         // Close driver after check
