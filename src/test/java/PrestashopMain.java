@@ -16,7 +16,7 @@ public class PrestashopMain {
         // opening browser fullscreen
         driver.manage().window().maximize();
         // setting implicitly wait
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         // TEST 1 navigate to site
         driver.get("http://prestashop-automation.qatestlab.com.ua/ru/");
@@ -62,56 +62,54 @@ public class PrestashopMain {
         searchField.sendKeys("Dress");
         searchField.submit();
         // Checking that only items which contain word "Dress" are displayed
-        List <WebElement> foundDressesOnly = driver.findElements(By.className("h3 product-title"));
-        System.out.println(foundDressesOnly.get(0).toString());
-
-
+        List <WebElement> foundDressesOnly = driver.findElements(By.className("product-description"));
         int numberOfWrongItems = 0;
         for (int a = 0; a < foundDressesOnly.size(); a++){
-
-            if (!foundDressesOnly.get(a).getText().contains("Dress")){
-                numberOfWrongItems++;
-            }
+        if (!foundDressesOnly.get(a).getText().contains("Dress")){
+        numberOfWrongItems++;
         }
-        System.out.println(numberOfWrongItems);
+        }
+        if (numberOfWrongItems == 0){
+            System.out.println("TEST 4 PASSED - there is no incorrect search results in the list");
+        }
+        else System.out.println("TEST 4 FAILED - some of results are incorrect. The number of incorrect results - " + numberOfWrongItems);
 
-        //Finding the number of displayed records
+        // TEST 5 Checking that the number of found items is the same to counter on page
+        //Finding the number of displayed items after search
         List <WebElement> foundDresses = driver.findElements(By.className("thumbnail-container"));
-        //Temporal check of result - remove in final version
-        System.out.println(foundDresses.size());
         //Saving the counter state on page
         WebElement numberOfFoundItems = driver.findElement(By.xpath("//*[@id=\"js-product-list\"]/nav/div[1]"));
         String resultQuantity = receiveAnyWord(numberOfFoundItems.getText()," ", 4);
-        //Temporal check of result - remove in final version
-        System.out.println(resultQuantity);
-        //checking if number is the same
+        //checking that number of found items is the same to counter value
         if (Integer.parseInt(resultQuantity) == foundDresses.size()){
-            System.out.println("Pass - the number is same to quantity of search results");
+            System.out.println("TEST 5 PASSED - the number items is the same to counter on page");
         }
-        else System.out.println("Fail - number differs");
+        else System.out.println("TEST 5 FAILED - the number items isn't the same to counter on page. Number of items found - " + resultQuantity + ". The counter value is - " + numberOfFoundItems);
 
-        // Checking that only USD is used for goods
-        List <WebElement> goodsCurrency = driver.findElements(By.className("price"));
+        // TEST 5 Checking that only USD is used for goods after selection USD as a currency
+        // Finding all prices on page and adding to goodsCurrency variable
+        List <WebElement> goodsPriceFull = driver.findElements(By.className("price"));
+
         ArrayList <String> priceValues = new ArrayList<String>();
-        for (int a = 0; a < goodsCurrency.size(); a++){
-            priceValues.add(goodsCurrency.get(a).getText());
+        for (int a = 0; a < goodsPriceFull.size(); a++){
+            priceValues.add(goodsPriceFull.get(a).getText());
         }
         String usdSymbol = "$";
         for (int a = 0; a < priceValues.size(); a++){
-            //Temporal check of result - remove in final version
-            System.out.println(priceValues.get(a));
             if (!receiveAnyWord(priceValues.get(a)," ", 2).equals(usdSymbol)){
-                System.out.println("Fail = not USD is used for " + a + " item in list");
+            System.out.println("TEST 6 FAILED - not USD is used for " + a + " item in list");
             }
         }
-        System.out.println("not failed - means passed)");
+        System.out.println("TEST 6 PASSED - only USD is used for goods on screen");
 
+        // TEST 7 - Setting price sorting from High to low
         // Setting other items order
         driver.findElement(By.xpath("//*[@id=\"js-product-list-top\"]/div[2]/div/div/a/i")).click();
         driver.findElement(By.xpath("//*[@id=\"js-product-list-top\"]/div[2]/div/div/div/a[5]")).click();
-
-        // Creating
-
+        // Checking that correct parameter is set
+        System.out.println(driver.findElement(By.xpath("//*[@id=\"js-product-list-top\"]/div[2]/div/div")).getText());
+        if (!driver.findElement(By.xpath("//*[@id=\"js-product-list-top\"]/div[2]/div/div/a")).getText().contains("Цене: от высокой к низкой"))
+            System.out.println("Test 7 failed");
         //Temporal check of result - remove in final version
         Thread.sleep(500);
         // Close driver after check

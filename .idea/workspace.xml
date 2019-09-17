@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="19e20813-9dc5-4892-83ad-501dc6b83c17" name="Default Changelist" comment="" />
+    <list default="true" id="78ae15dc-a1d8-44a1-ae16-be2f21bee5ad" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/PrestashopMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/PrestashopMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/PrestashopMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/PrestashopMain.class" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
@@ -22,12 +24,10 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectId" id="1QsID1L1mJKG8ZV6fyEBGMztOBz" />
+  <component name="ProjectId" id="1Qy7mUyuY7tsRwLYni30zzJR31t" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Global Libraries" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RunDashboard">
@@ -44,8 +44,6 @@
   </component>
   <component name="RunManager">
     <configuration name="PrestashopMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="11" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="PrestashopMain" />
       <module name="automationtask" />
       <method v="2">
@@ -63,12 +61,23 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="19e20813-9dc5-4892-83ad-501dc6b83c17" name="Default Changelist" comment="" />
-      <created>1568552753228</created>
+      <changelist id="78ae15dc-a1d8-44a1-ae16-be2f21bee5ad" name="Default Changelist" comment="" />
+      <created>1568731140054</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1568552753228</updated>
+      <updated>1568731140054</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
