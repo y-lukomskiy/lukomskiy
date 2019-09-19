@@ -2,6 +2,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -9,9 +12,8 @@ import java.util.concurrent.TimeUnit;
 public class PrestashopMain {
 
     public static void main(String[] args) throws InterruptedException {
-        // initializing driver
-        WebDriver driver = new DriverInitialization().getDriver();
-
+        // initializing Webdriver - typo "chrome" or "firefox"
+        WebDriver driver = new DriverInitialization().getDriver("chrome");
 
         // TEST 1 navigate to site
         driver.get("http://prestashop-automation.qatestlab.com.ua/ru/");
@@ -102,7 +104,8 @@ public class PrestashopMain {
         driver.findElement(By.xpath("//*[@id=\"js-product-list-top\"]/div[2]/div/div/a/i")).click();
         driver.findElement(By.xpath("//*[@id=\"js-product-list-top\"]/div[2]/div/div/div/a[5]")).click();
         // Waiting drop down to update
-        Thread.sleep(1000);
+        WebDriverWait wait = new WebDriverWait(driver,2);
+        wait.until(ExpectedConditions.textToBe(By.className("select-title"),"Цене: от высокой к низкой\n" + "\uE5C5"));
         // Checking that correct parameter is set
         if (!driver.findElement(By.xpath("//*[@id=\"js-product-list-top\"]/div[2]/div/div/a")).getText().contains("Цене: от высокой к низкой"))
             System.out.println("TEST 7 FAILED - incorrect sorting is set");
@@ -110,19 +113,19 @@ public class PrestashopMain {
 
         // TEST 8 - Checking that only regular price is used
 
-        ArrayList <String> onlyRegularPrices = new ArrayList<String>();
-        List <WebElement> allPrices = driver.findElements(By.className("product-price-and-shipping"));
-
-        for (int a = 1; a <= allPrices.size(); a++){
-            String regularPrice = "#js-product-list > div.products.row > article:nth-child(" + a + ") > div > div.product-description > div > span.regular-price";
-            String simplePrice = "#js-product-list > div.products.row > article:nth-child(" + a + ") > div > div.product-description > div > span";
-            if (driver.findElement(By.cssSelector(regularPrice)).isDisplayed())
-                onlyRegularPrices.add(driver.findElement(By.cssSelector(regularPrice)).getText());
-            else onlyRegularPrices.add(driver.findElement(By.cssSelector(simplePrice)).getText());
-            }
-        for (int a = 0; a <= onlyRegularPrices.size(); a++){
-            System.out.println(onlyRegularPrices.get(a));
-        }
+      //  ArrayList <String> onlyRegularPrices = new ArrayList<String>();
+        //        List <WebElement> allPrices = driver.findElements(By.className("product-price-and-shipping"));
+        //
+        //        for (int a = 1; a <= allPrices.size(); a++){
+        //            String regularPrice = "#js-product-list > div.products.row > article:nth-child(" + a + ") > div > div.product-description > div > span.regular-price";
+        //            String simplePrice = "#js-product-list > div.products.row > article:nth-child(" + a + ") > div > div.product-description > div > span";
+        //            if (driver.findElement(By.cssSelector(regularPrice)).isDisplayed())
+        //                onlyRegularPrices.add(driver.findElement(By.cssSelector(regularPrice)).getText());
+        //            else onlyRegularPrices.add(driver.findElement(By.cssSelector(simplePrice)).getText());
+        //            }
+        //        for (int a = 0; a <= onlyRegularPrices.size(); a++){
+        //            System.out.println(onlyRegularPrices.get(a));
+        //        }
 
 
 

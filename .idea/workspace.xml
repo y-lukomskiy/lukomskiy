@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="78ae15dc-a1d8-44a1-ae16-be2f21bee5ad" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/geckodriver.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/DriverInitialization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DriverInitialization.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/PrestashopMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/PrestashopMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/DriverInitialization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/DriverInitialization.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/PrestashopMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/PrestashopMain.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,6 +28,7 @@
     <option name="importingSettings">
       <MavenImportingSettings>
         <option name="importAutomatically" value="true" />
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
       </MavenImportingSettings>
     </option>
   </component>
@@ -40,7 +40,10 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
