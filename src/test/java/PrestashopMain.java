@@ -46,7 +46,7 @@ public class PrestashopMain {
         // Selecting USD as a currency
         driver.findElement(By.xpath("//*[@id=\"_desktop_currency_selector\"]/div/ul/li[3]/a")).click();
         // Finding set currency
-        String currencySet = driver.findElement(By.xpath("//*[@id=\"_desktop_currency_selector\"]/div/span[2]")).getText().toString();
+        String currencySet = driver.findElement(By.xpath("//*[@id=\"_desktop_currency_selector\"]/div/span[2]")).getText();
         if (currencySet.equals("USD $")){
             System.out.println("TEST 3 PASSED - the currency set correctly in drop-down");
         }
@@ -61,10 +61,10 @@ public class PrestashopMain {
         // Checking that only items which contain word "Dress" are displayed
         List <WebElement> foundDressesOnly = driver.findElements(By.className("product-description"));
         int numberOfWrongItems = 0;
-        for (int a = 0; a < foundDressesOnly.size(); a++){
-        if (!foundDressesOnly.get(a).getText().contains("Dress")){
-        numberOfWrongItems++;
-        }
+        for (WebElement webElement : foundDressesOnly) {
+            if (!webElement.getText().contains("Dress")) {
+                numberOfWrongItems++;
+            }
         }
         if (numberOfWrongItems == 0){
             System.out.println("TEST 4 PASSED - there is no incorrect search results in the list");
@@ -88,8 +88,8 @@ public class PrestashopMain {
         List <WebElement> goodsPriceFull = driver.findElements(By.className("price"));
 
         ArrayList <String> priceValues = new ArrayList<String>();
-        for (int a = 0; a < goodsPriceFull.size(); a++){
-            priceValues.add(goodsPriceFull.get(a).getText());
+        for (WebElement webElement : goodsPriceFull) {
+            priceValues.add(webElement.getText());
         }
         String usdSymbol = "$";
         for (int a = 0; a < priceValues.size(); a++){
@@ -113,19 +113,20 @@ public class PrestashopMain {
 
         // TEST 8 - Checking that only regular price is used
 
-      //  ArrayList <String> onlyRegularPrices = new ArrayList<String>();
-        //        List <WebElement> allPrices = driver.findElements(By.className("product-price-and-shipping"));
-        //
-        //        for (int a = 1; a <= allPrices.size(); a++){
-        //            String regularPrice = "#js-product-list > div.products.row > article:nth-child(" + a + ") > div > div.product-description > div > span.regular-price";
-        //            String simplePrice = "#js-product-list > div.products.row > article:nth-child(" + a + ") > div > div.product-description > div > span";
-        //            if (driver.findElement(By.cssSelector(regularPrice)).isDisplayed())
-        //                onlyRegularPrices.add(driver.findElement(By.cssSelector(regularPrice)).getText());
-        //            else onlyRegularPrices.add(driver.findElement(By.cssSelector(simplePrice)).getText());
-        //            }
-        //        for (int a = 0; a <= onlyRegularPrices.size(); a++){
-        //            System.out.println(onlyRegularPrices.get(a));
-        //        }
+        ArrayList <String> onlyWithoutDiscount = new ArrayList<String>();
+        List <WebElement> allPrices = driver.findElements(By.className("product-description"));
+        System.out.println(driver.findElement(By.cssSelector("article:nth-child(1) > div > div.product-description > div > span")).getText());
+
+               for (int a = 1; a <= allPrices.size(); a++){
+               String regularPrice = "article:nth-child(" + a + ") > div > div.product-description > div > span";
+               String discountPrice = "article:nth-child(" + a + ") > div > div.product-description > div > span.regular-price";
+
+               onlyWithoutDiscount.add(driver.findElement(By.cssSelector(discountPrice)).getText());
+               onlyWithoutDiscount.add(driver.findElement(By.cssSelector(regularPrice)).getText());
+        }
+                for (int a = 0; a <= onlyWithoutDiscount.size(); a++){
+                    System.out.println(onlyWithoutDiscount.get(a));
+                }
 
 
 

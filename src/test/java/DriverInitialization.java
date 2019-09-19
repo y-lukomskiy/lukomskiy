@@ -25,6 +25,7 @@ public class DriverInitialization {
         System.setProperty("webdriver.gecko.driver", driverPath);
         driver = new FirefoxDriver();
         }
+        // Adding parameters to driver
         driver.manage().window().maximize();
         // providing time to load the page
         driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
