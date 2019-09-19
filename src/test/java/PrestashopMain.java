@@ -10,11 +10,8 @@ public class PrestashopMain {
 
     public static void main(String[] args) throws InterruptedException {
         // initializing driver
-        WebDriver driver = getDriver();
-        // opening browser fullscreen
-        driver.manage().window().maximize();
-        // setting implicitly wait
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        WebDriver driver = new DriverInitialization().getDriver();
+
 
         // TEST 1 navigate to site
         driver.get("http://prestashop-automation.qatestlab.com.ua/ru/");
@@ -134,17 +131,6 @@ public class PrestashopMain {
         Thread.sleep(500);
         // Close driver after check
         driver.quit();
-    }
-
-    public static WebDriver getDriver() {
-        // way to Driver
-        String driverPath = System.getProperty("user.dir") + "//resources/chromedriver.exe";
-        if (driverPath == null) {
-            System.out.println("Incorrect way to driver(null)");
-        }
-        // driver parameters
-        System.setProperty("webdriver.chrome.driver", driverPath);
-        return new ChromeDriver();
     }
 
     // method to get any word from string - divides string "stringToDivide" with symbol/s set in divider on wordNumber
