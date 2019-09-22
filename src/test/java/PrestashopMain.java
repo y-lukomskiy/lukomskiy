@@ -1,19 +1,20 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.NoSuchElementException;
+
 
 public class PrestashopMain {
 
-    public static void main(String[] args) throws InterruptedException {
+    private static WebDriver driver;
+
+    public static void main(String[] args) throws Exception {
         // initializing Webdriver - typo "chrome" or "firefox"
-        WebDriver driver = new DriverInitialization().getDriver("chrome");
+        driver = new DriverInitialization().getDriver("chrome");
 
         // TEST 1 navigate to site
         driver.get("http://prestashop-automation.qatestlab.com.ua/ru/");
@@ -87,7 +88,7 @@ public class PrestashopMain {
         // Finding all prices on page and adding to goodsCurrency variable -- not include discount price :\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         List <WebElement> goodsPriceFull = driver.findElements(By.className("price"));
 
-        ArrayList <String> priceValues = new ArrayList<String>();
+        ArrayList <String> priceValues = new ArrayList<>();
         for (WebElement webElement : goodsPriceFull) {
             priceValues.add(webElement.getText());
         }
@@ -112,35 +113,64 @@ public class PrestashopMain {
         else System.out.println("TEST 7 PASSED - sorting from high price to low is set");
 
         // TEST 8 - Checking that only regular price is used
-        List <WebElement> allPrices = driver.findElements(By.className("product-description"));
-
-
-
-
-
-        ArrayList <String> cssSelectorList = new ArrayList<String>();
-        for (int a = 1; a <= allPrices.size(); a++){
-        cssSelectorList.add("article:nth-child(" + a + ") > div > div.product-description > div > span");
+        //Creating the list of all ACTUAL prices
+        List <WebElement> currentPrices = driver.findElements(By.className("price"));
+        // creating array to add current prices values
+        ArrayList <String> currentPricesList = new ArrayList<>();
+        // adding all prices to list
+        for (int a = 0; a < currentPrices.size(); a++){
+            currentPricesList.add(currentPrices.get(a).getText().substring(0,4));
+            currentPricesList.set(a, currentPricesList.get(a).replace(",", "."));
+            }
+        //Creating the list of all prices BEFORE DISCOUNT
+        //list of all discount prices
+        ArrayList <String> cssSelectorPriceBeforeDiscount = new ArrayList<>();
+        for (int a = 1; a <= currentPrices.size(); a++){
+            cssSelectorPriceBeforeDiscount.add("article:nth-child(" + a + ") > div > div.product-description > div > span.regular-price");
         }
+        // Array, which holds the prices, before discount - regular price for discounted, simple price for items without discount
+
+        ArrayList <String> listWithPricesBeforeDiscount = new ArrayList<>();
 
 
+        for (int a = 0; a < currentPrices.size(); a ++)
+            if (isElementExist(cssSelectorPriceBeforeDiscount.get(a))){
+                listWithPricesBeforeDiscount.add(driver.findElement(By.cssSelector(cssSelectorPriceBeforeDiscount.get(a))).getText().substring(0,4));
+                listWithPricesBeforeDiscount.set(a, listWithPricesBeforeDiscount.get(a).replace(",", "."));
+            }
+            else listWithPricesBeforeDiscount.add(currentPricesList.get(a));
 
 
+            // checking if some of prices aren't sorted by regular price
+        for (String s : listWithPricesBeforeDiscount) {
+            double sorting = Double.parseDouble((listWithPricesBeforeDiscount.get(0)));
+            if (Double.parseDouble(s) > sorting) {
+                System.out.println("TEST 8 FAILED - not regular prices are used in sorting. Seems one of elements is using discount price");
+                break;}
+            else sorting = Double.parseDouble(s);
+        }
+        System.out.println("TEST 8 PASSED - only regular prices are used in sorting");
 
-
+        // TEST 9 - Checking that regular price and discount amount are displayed for discounted goods
+        //Creating the list with discount value
+        ArrayList <String> discountAmount = new ArrayList<>();
 
         //Temporal check of result - remove in final version
-        Thread.sleep(500);
+        Thread.sleep(10);
         // Close driver after check
         driver.quit();
     }
 
     // method to get any word from string - divides string "stringToDivide" with symbol/s set in divider on wordNumber
-    public static String receiveAnyWord (String stringToDivide, String divider, Integer wordNumber){
-        String currencySymbol = null;
+    private static String receiveAnyWord (String stringToDivide, String divider, Integer wordNumber){
+        String word = null;
         for (String data : stringToDivide.split(divider, wordNumber)) {
-            currencySymbol = data;
+            word = data;
         }
-        return currencySymbol;
+        return word;
+    }
+    // method to check if any element is exist on page without throwing an exception
+    private static boolean isElementExist(String a) {
+        return driver.findElements(By.cssSelector(a)).size() > 0;
     }
 }

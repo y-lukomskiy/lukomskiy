@@ -1,13 +1,13 @@
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
-import java.beans.EventHandler;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
 public class DriverInitialization {
 
-    public static WebDriver driver;
+    private static WebDriver driver;
 
     public static WebDriver getDriver(String enterBrowser) {
         // options for driver
@@ -25,6 +25,7 @@ public class DriverInitialization {
         System.setProperty("webdriver.gecko.driver", driverPath);
         driver = new FirefoxDriver();
         }
+
         // Adding parameters to driver
         driver.manage().window().maximize();
         // providing time to load the page
