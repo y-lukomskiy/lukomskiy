@@ -112,21 +112,19 @@ public class PrestashopMain {
         else System.out.println("TEST 7 PASSED - sorting from high price to low is set");
 
         // TEST 8 - Checking that only regular price is used
-
-        ArrayList <String> onlyWithoutDiscount = new ArrayList<String>();
         List <WebElement> allPrices = driver.findElements(By.className("product-description"));
-        System.out.println(driver.findElement(By.cssSelector("article:nth-child(1) > div > div.product-description > div > span")).getText());
 
-               for (int a = 1; a <= allPrices.size(); a++){
-               String regularPrice = "article:nth-child(" + a + ") > div > div.product-description > div > span";
-               String discountPrice = "article:nth-child(" + a + ") > div > div.product-description > div > span.regular-price";
 
-               onlyWithoutDiscount.add(driver.findElement(By.cssSelector(discountPrice)).getText());
-               onlyWithoutDiscount.add(driver.findElement(By.cssSelector(regularPrice)).getText());
+
+
+
+        ArrayList <String> cssSelectorList = new ArrayList<String>();
+        for (int a = 1; a <= allPrices.size(); a++){
+        cssSelectorList.add("article:nth-child(" + a + ") > div > div.product-description > div > span");
         }
-                for (int a = 0; a <= onlyWithoutDiscount.size(); a++){
-                    System.out.println(onlyWithoutDiscount.get(a));
-                }
+
+
+
 
 
 
