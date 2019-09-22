@@ -5,14 +5,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-
 
 public class PrestashopMain {
 
     private static WebDriver driver;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         // initializing Webdriver - typo "chrome" or "firefox"
         driver = new DriverInitialization().getDriver("chrome");
 
@@ -85,7 +83,7 @@ public class PrestashopMain {
         else System.out.println("TEST 5 FAILED - the number items isn't the same to counter on page. Number of items found - " + resultQuantity + ". The counter value is - " + numberOfFoundItems);
 
         // TEST 5 Checking that only USD is used for goods after selection USD as a currency
-        // Finding all prices on page and adding to goodsCurrency variable -- not include discount price :\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        // Finding all prices on page and adding to goodsCurrency variable -- not include discount price
         List <WebElement> goodsPriceFull = driver.findElements(By.className("price"));
 
         ArrayList <String> priceValues = new ArrayList<>();
@@ -129,15 +127,12 @@ public class PrestashopMain {
             cssSelectorPriceBeforeDiscount.add("article:nth-child(" + a + ") > div > div.product-description > div > span.regular-price");
         }
         // Array, which holds the prices, before discount - regular price for discounted, simple price for items without discount
-
         ArrayList <String> listWithPricesBeforeDiscount = new ArrayList<>();
-
-
         for (int a = 0; a < currentPrices.size(); a ++)
             if (isElementExist(cssSelectorPriceBeforeDiscount.get(a))){
                 listWithPricesBeforeDiscount.add(driver.findElement(By.cssSelector(cssSelectorPriceBeforeDiscount.get(a))).getText().substring(0,4));
                 listWithPricesBeforeDiscount.set(a, listWithPricesBeforeDiscount.get(a).replace(",", "."));
-            }
+                }
             else listWithPricesBeforeDiscount.add(currentPricesList.get(a));
 
 
@@ -152,11 +147,45 @@ public class PrestashopMain {
         System.out.println("TEST 8 PASSED - only regular prices are used in sorting");
 
         // TEST 9 - Checking that regular price and discount amount are displayed for discounted goods
-        //Creating the list with discount value
+        //Creating the list of css with possible discount value
+        ArrayList <String> cssDiscountSelectors = new ArrayList<>();
+        for (int a = 1; a <= currentPrices.size(); a++){
+            cssDiscountSelectors.add("article:nth-child(" + a + ") > div > div.product-description > div > span.discount-percentage");
+        }
+        // creating list of discounts for all items - 0 means no discount
         ArrayList <String> discountAmount = new ArrayList<>();
+        for (int a = 0; a <cssDiscountSelectors.size(); a++){
+            if (isElementExist(cssDiscountSelectors.get(a))){
+                discountAmount.add(driver.findElement(By.cssSelector(cssDiscountSelectors.get(a))).getText());
+                discountAmount.set(a, discountAmount.get(a).replaceAll("[^0-9]",""));
+                }
+            else discountAmount.add(a,"0");
+            }
 
-        //Temporal check of result - remove in final version
-        Thread.sleep(10);
+        // checking that items with discount have regular price, discounted price and discount value
+        for (int a = 0; a<currentPricesList.size(); a++){
+            if (Double.parseDouble(discountAmount.get(a)) != 0 && Double.parseDouble(listWithPricesBeforeDiscount.get(a))!= 0 && Double.parseDouble(currentPricesList.get(a))!= 0)
+            continue;
+            else {
+                System.out.println("TEST 9 FAILED - one of parameters(regular price or discount amount isn't displayed for item # " + (a+1));
+                break;}
+            }
+        System.out.println("TEST 9 PASSED - all prices are displayed for tested items with discount");
+
+        // TEST 10 - Checking that discount is calculated correctly
+        //Calculating
+        ArrayList <Double> listOfCalculatedDiscounts = new ArrayList <> ();
+        for (int a = 0; a < currentPricesList.size(); a++){
+            double value = (1 - (Double.parseDouble(currentPricesList.get(a)) / Double.parseDouble(listWithPricesBeforeDiscount.get(a))));
+            listOfCalculatedDiscounts.add(((double)Math.round(value * 100.00) / 100.00)*100);
+            }
+        for (int a = 0; a < currentPricesList.size(); a++){
+            if (Integer.parseInt(discountAmount.get(a)) != listOfCalculatedDiscounts.get(a)){
+                System.out.println("TEST 10 FAILED - the discount isn't calculated correctly");
+                break;}
+        }
+        System.out.println("TEST 10 PASSED - the discount is calculated correctly");
+
         // Close driver after check
         driver.quit();
     }
